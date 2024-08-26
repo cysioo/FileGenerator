@@ -1,4 +1,5 @@
 using FileGenerator;
+using FileGenerator.LineGeneration;
 using Microsoft.Extensions.Logging;
 using Moq;
 

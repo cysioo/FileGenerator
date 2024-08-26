@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace FileGenerator
+namespace FileGenerator.LineGeneration
 {
     public class StringGenerator : IStringGenerator
     {

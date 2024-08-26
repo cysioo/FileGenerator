@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
-namespace FileGenerator
+namespace FileGenerator.LineGeneration
 {
     public class LineGenerator
     {
@@ -13,9 +14,9 @@ namespace FileGenerator
         //    var parts = SplitStringIntoParts(lineTemplate);
         //}
 
-        public List<string> SplitStringIntoParts(string lineTemplate)
+        public List<LineTemplatePart> SplitStringIntoParts(string lineTemplate)
         {
-            var parts = new List<string>();
+            var parts = new List<LineTemplatePart>();
             var regex = new Regex(@"(\{\{.*?\}\})");
             var matches = regex.Matches(lineTemplate);
 
@@ -24,15 +25,22 @@ namespace FileGenerator
             {
                 if (match.Index > lastIndex)
                 {
-                    parts.Add(lineTemplate.Substring(lastIndex, match.Index - lastIndex));
+                    var text = lineTemplate.Substring(lastIndex, match.Index - lastIndex);
+                    var textPart = new LineTemplatePart { Text = text, TokenType = TokenType.Text };
+                    parts.Add(textPart);
                 }
-                parts.Add(match.Value);
+
+                var tokenPart = new LineTemplatePart { Text = match.Value, TokenType = TokenType.Sequence };
+                parts.Add(tokenPart);
+
                 lastIndex = match.Index + match.Length;
             }
 
             if (lastIndex < lineTemplate.Length)
             {
-                parts.Add(lineTemplate.Substring(lastIndex));
+                var text = lineTemplate.Substring(lastIndex);
+                var tokenPart = new LineTemplatePart { Text = text, TokenType = TokenType.Sequence };
+                parts.Add(tokenPart);
             }
 
             return parts;

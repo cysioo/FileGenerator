@@ -1,4 +1,4 @@
-﻿namespace FileGenerator
+﻿namespace FileGenerator.LineGeneration
 {
     public interface IStringGenerator
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FileGenerator.LineGeneration;
+using Microsoft.Extensions.Logging;
 
 namespace FileGenerator
 {

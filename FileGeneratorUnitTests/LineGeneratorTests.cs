@@ -1,4 +1,4 @@
-﻿using FileGenerator;
+﻿using FileGenerator.LineGeneration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +18,7 @@ namespace FileGeneratorUnitTests
 
             var result = _sut.SplitStringIntoParts(lineTemplate);
 
-            Assert.IsTrue(result.Count == 4);
-            Assert.That(result[0], Is.EqualTo("{{sequence}}"));
+            Assert.That(result[0].Text, Is.EqualTo("{{sequence}}"));
         }
 
         [Test]
@@ -30,19 +29,27 @@ namespace FileGeneratorUnitTests
             var result = _sut.SplitStringIntoParts(lineTemplate);
 
             Assert.IsTrue(result.Count == 4);
-            Assert.That(result[2], Is.EqualTo("{{words:3}}"));
+            Assert.That(result[2].Text, Is.EqualTo("{{words:3}}"));
         }
 
         [Test]
-        public void WhenTemplateContainsTexts_ThenResultContainsTexts()
+        public void WhenTemplateContainsTextInTheFront_ThenThe1stResultItemIsTheText()
         {
-            var lineTemplate = "{{sequence}}text before {{words:3}} text after";
+            var lineTemplate = "text before {{words:3}} text after";
 
             var result = _sut.SplitStringIntoParts(lineTemplate);
 
-            Assert.IsTrue(result.Count == 4);
-            Assert.That(result[1], Is.EqualTo("text before "));
-            Assert.That(result[3], Is.EqualTo(" text after"));
+            Assert.That(result[0].Text, Is.EqualTo("text before "));
+        }
+
+        [Test]
+        public void WhenTemplateContainsTextInTheEnd_ThenTheLastResultItemIsTheText()
+        {
+            var lineTemplate = "text before {{words:3}} text after";
+
+            var result = _sut.SplitStringIntoParts(lineTemplate);
+
+            Assert.That(result[0].Text, Is.EqualTo("text before "));
         }
     }
 }

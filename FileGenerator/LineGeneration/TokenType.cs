@@ -1,8 +1,8 @@
-﻿namespace FileGenerator
+﻿namespace FileGenerator.LineGeneration
 {
     public enum TokenType
     {
-        None,
+        Text,
         Sequence,
         RandomInt,
         Words
