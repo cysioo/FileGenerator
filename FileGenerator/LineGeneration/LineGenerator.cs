@@ -30,7 +30,8 @@ namespace FileGenerator.LineGeneration
                     parts.Add(textPart);
                 }
 
-                var tokenPart = new LineTemplatePart { Text = match.Value, TokenType = TokenType.Sequence };
+                var tokenType = GetTokenType(match.Value);
+                var tokenPart = new LineTemplatePart { Text = match.Value, TokenType = tokenType };
                 parts.Add(tokenPart);
 
                 lastIndex = match.Index + match.Length;
@@ -39,11 +40,34 @@ namespace FileGenerator.LineGeneration
             if (lastIndex < lineTemplate.Length)
             {
                 var text = lineTemplate.Substring(lastIndex);
-                var tokenPart = new LineTemplatePart { Text = text, TokenType = TokenType.Sequence };
+                var tokenType = GetTokenType(text);
+                var tokenPart = new LineTemplatePart { Text = text, TokenType = tokenType };
                 parts.Add(tokenPart);
             }
 
             return parts;
+        }
+
+        public TokenType GetTokenType(string lineTemplatePart)
+        {
+            if (!lineTemplatePart.StartsWith("{{") || !lineTemplatePart.EndsWith("}}"))
+            {
+                return TokenType.Text;
+            }
+
+            var tokenLength = lineTemplatePart.IndexOf(':') - 2;
+            if (tokenLength < 0)
+            {
+                tokenLength = lineTemplatePart.Length - 4;
+            }
+
+            TokenType result = TokenType.Unknown;
+            if (Enum.TryParse(lineTemplatePart.AsSpan(2, tokenLength), true, out result))
+            {
+                return result;
+            }
+
+            return TokenType.Unknown;
         }
     }
 }

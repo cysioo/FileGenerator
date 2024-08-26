@@ -19,6 +19,7 @@ namespace FileGeneratorUnitTests
             var result = _sut.SplitStringIntoParts(lineTemplate);
 
             Assert.That(result[0].Text, Is.EqualTo("{{sequence}}"));
+            Assert.That(result[0].TokenType, Is.EqualTo(TokenType.Sequence));
         }
 
         [Test]
@@ -30,6 +31,7 @@ namespace FileGeneratorUnitTests
 
             Assert.IsTrue(result.Count == 4);
             Assert.That(result[2].Text, Is.EqualTo("{{words:3}}"));
+            Assert.That(result[2].TokenType, Is.EqualTo(TokenType.Words));
         }
 
         [Test]
@@ -40,6 +42,7 @@ namespace FileGeneratorUnitTests
             var result = _sut.SplitStringIntoParts(lineTemplate);
 
             Assert.That(result[0].Text, Is.EqualTo("text before "));
+            Assert.That(result[0].TokenType, Is.EqualTo(TokenType.Text));
         }
 
         [Test]
@@ -50,6 +53,47 @@ namespace FileGeneratorUnitTests
             var result = _sut.SplitStringIntoParts(lineTemplate);
 
             Assert.That(result[0].Text, Is.EqualTo("text before "));
+            Assert.That(result[0].TokenType, Is.EqualTo(TokenType.Text));
+        }
+
+        [Test]
+        public void GivenLineTemplateWithSequence_WhenGettingTokenType_ThenSequenceIsReturned()
+        {
+            var lineTemplate = "{{sequence}}";
+
+            var result = _sut.GetTokenType(lineTemplate);
+
+            Assert.That(result, Is.EqualTo(TokenType.Sequence));
+        }
+
+        [Test]
+        public void GivenLineTemplateWithSequenceWithDelimiter_WhenGettingTokenType_ThenSequenceIsReturned()
+        {
+            var lineTemplate = "{{sequence:1}}";
+
+            var result = _sut.GetTokenType(lineTemplate);
+
+            Assert.That(result, Is.EqualTo(TokenType.Sequence));
+        }
+
+        [Test]
+        public void GivenLineTemplateWithText_WhenGettingTokenType_ThenSequenceIsReturned()
+        {
+            var lineTemplate = "{{sequence:1";      // this is text not a token because it doesn't have corresponding closing braces
+
+            var result = _sut.GetTokenType(lineTemplate);
+
+            Assert.That(result, Is.EqualTo(TokenType.Text));
+        }
+
+        [Test]
+        public void GivenLineTemplateWithUndefinedToken_WhenGettingTokenType_ThenUnknownIsReturned()
+        {
+            var lineTemplate = "{{not defined}}";     
+
+            var result = _sut.GetTokenType(lineTemplate);
+
+            Assert.That(result, Is.EqualTo(TokenType.Unknown));
         }
     }
 }
