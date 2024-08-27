@@ -6,11 +6,11 @@ namespace FileGenerator
     {
         public int FileSizeInMb => configuration.GetValue<int>("FileSizeInMb");
 
-        public int StringRepeatRate => configuration.GetValue<int>("StringRepeatRate");
+        public int? RepeatRate => configuration.GetValue<int?>("RepeatRate");
 
         public string FileSaveLocation => GetFileDirectory("FileSaveLocation");
 
-        public string FileName => configuration.GetValue<string>("FileName") ?? "unsorted.txt";
+        public string FileName => configuration.GetValue<string>("FileName") ?? "generated.txt";
 
         public string? LineTemplate => configuration.GetValue<string>("LineTemplate");
 

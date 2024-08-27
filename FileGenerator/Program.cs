@@ -14,8 +14,8 @@ using IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddSingleton<IAppSettings>(s => new AppSettings(hostContext.Configuration));
         services.AddSingleton<ApplicationRunner>();
-        services.AddSingleton<IStringGenerator, StringGenerator>();
         services.AddTransient<IFileService, FileService>();
+        services.AddSingleton<ILineGenerator, LineGenerator>();
     })
     .Build();
 

@@ -4,14 +4,18 @@ using System.Text.RegularExpressions;
 
 namespace FileGenerator.LineGeneration
 {
-    public class LineGenerator
+    public class LineGenerator : ILineGenerator
     {
+        private readonly IAppSettings _appSettings;
+        private readonly IFileService _fileService;
         private string? _lineTemplate;
         private readonly IList<ITokenGenerator> _tokenGenerators = [];
 
-        public LineGenerator(IAppSettings appSettings)
+        public LineGenerator(IAppSettings appSettings, IFileService fileService)
         {
+            _appSettings = appSettings;
             _lineTemplate = appSettings.LineTemplate;
+            _fileService = fileService;
         }
 
         public void Initialize()
@@ -103,6 +107,7 @@ namespace FileGenerator.LineGeneration
             {
                 case TokenType.Text: return new StaticText(templatePart.Text);
                 case TokenType.Sequence: return new SequenceGenerator();
+                case TokenType.Words: return new WordsGenerator(_appSettings, _fileService);
             }
 
             throw new NotSupportedException($"The template has an unsupported token: {templatePart.Text}");

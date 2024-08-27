@@ -5,7 +5,7 @@
         string FileName { get; }
         string FileSaveLocation { get; }
         int FileSizeInMb { get; }
-        int StringRepeatRate { get; }
+        int? RepeatRate { get; }
         string? LineTemplate { get; }
     }
 }

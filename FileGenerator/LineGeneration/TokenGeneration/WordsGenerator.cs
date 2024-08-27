@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace FileGenerator.LineGeneration
+namespace FileGenerator.LineGeneration.TokenGeneration
 {
-    public class StringGenerator : IStringGenerator
+    public class WordsGenerator : ITokenGenerator
     {
         private const int RememberedStringsLimit = 1000;
         private readonly IAppSettings _appSettings;
@@ -10,18 +10,33 @@ namespace FileGenerator.LineGeneration
         private Random _randomNumberGenerator = new Random();
         private readonly string[] _words;
 
-        public StringGenerator(IAppSettings appSettings, IFileService fileService)
+        public WordsGenerator(IAppSettings appSettings, IFileService fileService)
         {
             _appSettings = appSettings;
             _words = fileService.Words;
         }
 
-        public string GetNewStringPart()
+        public string Generate()
         {
-            var shouldRepeatAString = _randomNumberGenerator.Next(0, _appSettings.StringRepeatRate) == 0;
+            bool shouldRepeatAString = ShouldStringBeRepeated();
             string stringPart = IsAnyStringRemembered && shouldRepeatAString ? GetRemeberedString() : GenerateString();
             RememberString(stringPart);
             return stringPart;
+        }
+
+        private bool ShouldStringBeRepeated()
+        {
+            if (_appSettings.RepeatRate.HasValue)
+            {
+                if (_appSettings.RepeatRate.Value <= 0)
+                {
+                    throw new InvalidOperationException("The RepeatRate in appsettings.json is invalid - it must be greater then 0");
+                }
+
+                return _randomNumberGenerator.Next(0, _appSettings.RepeatRate.Value) == 0;
+            }
+
+            return false;
         }
 
         private string GenerateString()

@@ -17,10 +17,11 @@ namespace FileGeneratorUnitTests
             var logger = new Mock<ILogger<ApplicationRunner>>();
             var appSettings = new Mock<IAppSettings>();
             appSettings.Setup(x => x.FileSizeInMb).Returns(1);
-            var stringGenerator = new Mock<IStringGenerator>();
-            stringGenerator.Setup(x => x.GetNewStringPart()).Returns(StringPart);
+            var lineGenerator = new Mock<ILineGenerator>();
+            lineGenerator.Setup(x => x.Initialize());
+            lineGenerator.Setup(x => x.GenerateLine()).Returns(StringPart);
             _fileService = new Mock<IFileService>();
-            _sut = new ApplicationRunner(logger.Object, appSettings.Object, stringGenerator.Object, _fileService.Object);
+            _sut = new ApplicationRunner(logger.Object, appSettings.Object, lineGenerator.Object, _fileService.Object);
 
             _sut.Run();
         }
