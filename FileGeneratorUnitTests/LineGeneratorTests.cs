@@ -16,7 +16,7 @@ namespace FileGeneratorUnitTests
         {
             var lineTemplate = "{{sequence}}text before {{words:3}} text after";
 
-            var result = _sut.SplitStringIntoParts(lineTemplate);
+            var result = _sut.SplitLineTemplateIntoParts(lineTemplate);
 
             Assert.That(result[0].Text, Is.EqualTo("{{sequence}}"));
             Assert.That(result[0].TokenType, Is.EqualTo(TokenType.Sequence));
@@ -27,7 +27,7 @@ namespace FileGeneratorUnitTests
         {
             var lineTemplate = "{{sequence}}text before {{words:3}} text after";
             
-            var result = _sut.SplitStringIntoParts(lineTemplate);
+            var result = _sut.SplitLineTemplateIntoParts(lineTemplate);
 
             Assert.IsTrue(result.Count == 4);
             Assert.That(result[2].Text, Is.EqualTo("{{words:3}}"));
@@ -39,7 +39,7 @@ namespace FileGeneratorUnitTests
         {
             var lineTemplate = "text before {{words:3}} text after";
 
-            var result = _sut.SplitStringIntoParts(lineTemplate);
+            var result = _sut.SplitLineTemplateIntoParts(lineTemplate);
 
             Assert.That(result[0].Text, Is.EqualTo("text before "));
             Assert.That(result[0].TokenType, Is.EqualTo(TokenType.Text));
@@ -50,7 +50,7 @@ namespace FileGeneratorUnitTests
         {
             var lineTemplate = "text before {{words:3}} text after";
 
-            var result = _sut.SplitStringIntoParts(lineTemplate);
+            var result = _sut.SplitLineTemplateIntoParts(lineTemplate);
 
             Assert.That(result[0].Text, Is.EqualTo("text before "));
             Assert.That(result[0].TokenType, Is.EqualTo(TokenType.Text));

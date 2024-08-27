@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FileGenerator.LineGeneration.TokenGeneration;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace FileGenerator.LineGeneration
 {
@@ -14,7 +9,7 @@ namespace FileGenerator.LineGeneration
         //    var parts = SplitStringIntoParts(lineTemplate);
         //}
 
-        public List<LineTemplatePart> SplitStringIntoParts(string lineTemplate)
+        public IList<LineTemplatePart> SplitLineTemplateIntoParts(string lineTemplate)
         {
             var parts = new List<LineTemplatePart>();
             var regex = new Regex(@"(\{\{.*?\}\})");
@@ -68,6 +63,17 @@ namespace FileGenerator.LineGeneration
             }
 
             return TokenType.Unknown;
+        }
+
+        private ITokenGenerator GetTokenGenerator(LineTemplatePart templatePart)
+        {
+            switch (templatePart.TokenType)
+            {
+                case TokenType.Text: return new StaticText(templatePart.Text);
+                case TokenType.Sequence: return new SequenceGenerator();
+            }
+
+            throw new NotSupportedException($"The template has an unsupported token: {templatePart.Text}");
         }
     }
 }
