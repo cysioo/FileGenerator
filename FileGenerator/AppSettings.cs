@@ -12,6 +12,8 @@ namespace FileGenerator
 
         public string FileName => configuration.GetValue<string>("FileName") ?? "unsorted.txt";
 
+        public string? LineTemplate => configuration.GetValue<string>("LineTemplate");
+
         private string GetFileDirectory(string key)
         {
             return (configuration.GetValue<string>(key) ??

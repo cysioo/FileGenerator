@@ -1,13 +1,45 @@
 ﻿using FileGenerator.LineGeneration.TokenGeneration;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace FileGenerator.LineGeneration
 {
     public class LineGenerator
     {
-        //public string GenerateLine(string lineTemplate) {
-        //    var parts = SplitStringIntoParts(lineTemplate);
-        //}
+        private string? _lineTemplate;
+        private readonly IList<ITokenGenerator> _tokenGenerators = [];
+
+        public LineGenerator(IAppSettings appSettings)
+        {
+            _lineTemplate = appSettings.LineTemplate;
+        }
+
+        public void Initialize()
+        {
+            if (string.IsNullOrWhiteSpace(_lineTemplate))
+            {
+                throw new InvalidOperationException("LineTemplate is missing in appSettings.json");
+            }
+
+            var parts = SplitLineTemplateIntoParts(_lineTemplate);
+            foreach (var part in parts)
+            {
+                ITokenGenerator generatorForThePart = GetTokenGenerator(part);
+                _tokenGenerators.Add(generatorForThePart);
+            }
+        }
+
+        public string GenerateLine()
+        {
+            var line = new StringBuilder();
+            foreach (var generator in _tokenGenerators)
+            {
+                var part = generator.Generate();
+                line.Append(part);
+            }
+
+            return line.ToString();
+        }
 
         public IList<LineTemplatePart> SplitLineTemplateIntoParts(string lineTemplate)
         {
