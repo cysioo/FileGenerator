@@ -17,8 +17,6 @@ namespace FileGenerator
 
             while (currentSize < desiredSizeInBytes)
             {
-                //int numberPart = random.Next(0, 1000_000);
-                //var stringPart = stringGenerator.GetNewStringPart();
                 var line = lineGenerator.GenerateLine();
                 fileService.WriteLineToOutputFile(line);
 
