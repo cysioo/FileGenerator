@@ -108,6 +108,7 @@ namespace FileGenerator.LineGeneration
                 case TokenType.Text: return new StaticText(templatePart.Text);
                 case TokenType.Sequence: return new SequenceGenerator();
                 case TokenType.Words: return new WordsGenerator(_appSettings, _fileService);
+                case TokenType.RandomInt: return new RandomIntGenerator();
             }
 
             throw new NotSupportedException($"The template has an unsupported token: {templatePart.Text}");
