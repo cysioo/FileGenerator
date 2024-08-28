@@ -62,7 +62,8 @@ namespace FileGenerator.LineGeneration
                 }
 
                 var tokenType = GetTokenType(match.Value);
-                var tokenPart = new LineTemplatePart { Text = match.Value, TokenType = tokenType };
+                var tokenParameters = GetTokenParameters(match.Value);
+                var tokenPart = new LineTemplatePart { Text = match.Value, TokenType = tokenType, Parameters = tokenParameters };
                 parts.Add(tokenPart);
 
                 lastIndex = match.Index + match.Length;
@@ -72,7 +73,8 @@ namespace FileGenerator.LineGeneration
             {
                 var text = lineTemplate.Substring(lastIndex);
                 var tokenType = GetTokenType(text);
-                var tokenPart = new LineTemplatePart { Text = text, TokenType = tokenType };
+                var tokenParameters = GetTokenParameters(text);
+                var tokenPart = new LineTemplatePart { Text = text, TokenType = tokenType, Parameters = tokenParameters };
                 parts.Add(tokenPart);
             }
 
@@ -99,6 +101,19 @@ namespace FileGenerator.LineGeneration
             }
 
             return TokenType.Unknown;
+        }
+
+        public string[] GetTokenParameters(string lineTemplatePart)
+        {
+            var parametersDelimiterIndex = lineTemplatePart.IndexOf(':');
+            if (parametersDelimiterIndex > 0)
+            {
+                var parametersStart = parametersDelimiterIndex + 1;
+                var parametersPart = lineTemplatePart.Substring(parametersStart, lineTemplatePart.Length - 2 - parametersStart);
+                return parametersPart.Split(':', StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            return [];
         }
 
         private ITokenGenerator GetTokenGenerator(LineTemplatePart templatePart)

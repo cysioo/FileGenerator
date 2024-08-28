@@ -116,5 +116,42 @@ namespace FileGeneratorUnitTests
 
             Assert.That(result, Is.EqualTo(TokenType.Unknown));
         }
+
+        [Test]
+        public void GivenTokenWith2Parameters_WhenGettingTokenParameters_Then2ParametersAreReturned()
+        {
+            const string param1 = "1";
+            const string param2 = "param 2";
+            var lineTemplate = "{{token:" + param1 + ":" + param2 + "}}";
+            _appSettings.Setup(x => x.LineTemplate).Returns(lineTemplate);
+
+            var result = _sut.GetTokenParameters(lineTemplate);
+
+            Assert.That(result.Length, Is.EqualTo(2));
+            Assert.That(result[0], Is.EqualTo(param1));
+            Assert.That(result[1], Is.EqualTo(param2));
+        }
+
+        [Test]
+        public void GivenTokenWithoutParameters_WhenGettingTokenParameters_ThenEmptyArrayIsReturned()
+        {
+            var lineTemplate = "{{token}}";
+            _appSettings.Setup(x => x.LineTemplate).Returns(lineTemplate);
+
+            var result = _sut.GetTokenParameters(lineTemplate);
+
+            Assert.That(result.Length, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GivenTokenWithDelimiterButNoParameters_WhenGettingTokenParameters_ThenEmptyArrayIsReturned()
+        {
+            var lineTemplate = "{{token:}}";
+            _appSettings.Setup(x => x.LineTemplate).Returns(lineTemplate);
+
+            var result = _sut.GetTokenParameters(lineTemplate);
+
+            Assert.That(result.Length, Is.EqualTo(0));
+        }
     }
 }
