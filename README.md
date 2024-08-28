@@ -15,7 +15,7 @@ Before you run the app, it needs to be configured. There is a text file called a
 **Optional**:
 * _FileSaveLocation_ - folder where the file should be created. Default - the location of the app.
 * _FileName_ - the name of the result file. Default: "generated.txt"
-* _RepeatRate_ - Applies to words and randomInt. This setting will make it so that some random string will get repeated once per StringRepeatRate on avarage (the higher the number the less often it will repeat). E.g. if you set it to 100 then you should expect 2 strings in in every 100 to be the same. Setting it to 1 means it will repeat all the time. 0 and below is invalid.
+* _RepeatRate_ - Applies to words. This setting will make it so that some random set of words in a line will get repeated once per RepeatRate on avarage (the higher the number the less often it will repeat). E.g. if you set it to 100 then you should expect 2 sets of words in in every 100 to be the same. Setting it to 1 means it will repeat all the time. 0 and below is invalid.
 
 **Words**
 There is a file **words_alpha.txt** (taken from https://github.com/dwyl/english-words) that I have included in the app. If you want your own set of words, just open it and replace them.
