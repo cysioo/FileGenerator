@@ -81,7 +81,7 @@ namespace FileGenerator.LineGeneration.TokenGeneration
             var stringPartBuilder = new StringBuilder();
             for (var i = 0; i < numberOfWords; i++)
             {
-                var wordIndex = _randomNumberGenerator.Next(0, _words.Length - 1);
+                var wordIndex = _randomNumberGenerator.Next(0, _words.Length);
                 var word = _words[wordIndex];
                 stringPartBuilder.Append($" {word}");
             }
