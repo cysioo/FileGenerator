@@ -29,7 +29,7 @@ namespace FileGeneratorUnitTests
         }
 
         [Test]
-        public void WhenThereIs1Parameter_ThenAtLeastThatNumberOfWordsAndMax10WordsIsGenerated()
+        public void WhenThereIs1Parameter_ThenThatNumberOfWordsIsGenerated()
         {
             var appSettings = new Mock<IAppSettings>();
             var fileService = new Mock<IFileService>();
