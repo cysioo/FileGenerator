@@ -24,6 +24,7 @@ namespace FileGenerator
             }
 
             logger.LogInformation("Application finished at: {time}", DateTimeOffset.Now);
+            logger.LogInformation("Created file: {file}", fileService.OutputFilePath);
         }
     }
 }

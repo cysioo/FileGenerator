@@ -20,6 +20,8 @@ namespace FileGenerator
             }
         }
 
+        public string OutputFilePath { get; private set; }
+
         public void WriteLineToOutputFile(string line)
         {
             PrepareForWriting();
@@ -38,6 +40,7 @@ namespace FileGenerator
                 }
                 var fullPath = Path.Combine(appSettings.FileSaveLocation, appSettings.FileName);
                 _fileWriter = new StreamWriter(fullPath);
+                OutputFilePath = fullPath;
             }
         }
 
