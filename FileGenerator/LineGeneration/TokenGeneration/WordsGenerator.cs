@@ -9,11 +9,43 @@ namespace FileGenerator.LineGeneration.TokenGeneration
         private IList<string> _rememberedStrings = new List<string>();
         private Random _randomNumberGenerator = new Random();
         private readonly string[] _words;
+        private int _minNumberOfWords = 1;
+        private int _maxNumberOfWords = 10;
 
-        public WordsGenerator(IAppSettings appSettings, IFileService fileService)
+        public WordsGenerator(IAppSettings appSettings, IFileService fileService, string[] parameters)
         {
             _appSettings = appSettings;
             _words = fileService.Words;
+
+            if (parameters != null)
+            {
+                if (parameters.Length > 0)
+                {
+                    var maxNumberIndex = parameters.Length - 1;
+                    if (!int.TryParse(parameters[maxNumberIndex], out _maxNumberOfWords))
+                    {
+                        throw new ArgumentException($"The 'maxValue' parameter for 'words' must be a number (but {maxNumberIndex} was found).");
+                    }
+                }
+
+                if (parameters.Length > 1)
+                {
+                    if (!int.TryParse(parameters[0], out _minNumberOfWords))
+                    {
+                        throw new ArgumentException($"The 'minValue' parameter for 'words' must be a number (but {parameters[0]} was found).");
+                    }
+
+                    if (_minNumberOfWords < 1)
+                    {
+                        throw new ArgumentException($"The 'minValue' parameter for 'words' must be at least 1.");
+                    }
+                }
+
+                if (_minNumberOfWords > _maxNumberOfWords)
+                {
+                    throw new ArgumentException($"The 'maxValue' parameter for 'words' must NOT be lower then 'minValue'.");
+                }
+            }
         }
 
         public string Generate()
@@ -41,7 +73,7 @@ namespace FileGenerator.LineGeneration.TokenGeneration
 
         private string GenerateString()
         {
-            var numberOfWords = _randomNumberGenerator.Next(1, 10);
+            var numberOfWords = _randomNumberGenerator.Next(_minNumberOfWords, _maxNumberOfWords + 1);
             var stringPartBuilder = new StringBuilder();
             for (var i = 0; i < numberOfWords; i++)
             {

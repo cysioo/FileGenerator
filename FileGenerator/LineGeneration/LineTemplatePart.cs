@@ -6,6 +6,6 @@
 
         public TokenType TokenType { get; set; }
 
-        public IList<string> Parameters { get; set; } = [];
+        public string[] Parameters { get; set; } = [];
     }
 }
