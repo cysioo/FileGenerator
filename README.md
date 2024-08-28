@@ -33,3 +33,13 @@ Here is the list of special tokens you can use (explenation in brackets):
 0, omissus coonier
 1, tweets gallowglass boterol electrical flippant ventilates
 ...
+
+When the configuration is ready, run the app. If you are using a package that I built, open command line and type:
+* on Windows:
+```
+FileGenerator.exe
+```
+* on Linux or Mac:
+```
+./FileGenerator
+```
