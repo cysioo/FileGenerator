@@ -50,6 +50,8 @@ namespace FileGenerator.LineGeneration.TokenGeneration
                 stringPartBuilder.Append($" {word}");
             }
 
+            stringPartBuilder.Remove(0, 1); // remove the 1st space
+
             return stringPartBuilder.ToString();
         }
 
