@@ -21,15 +21,6 @@ namespace FileGenerator.LineGeneration.TokenGeneration
             {
                 if (parameters.Length > 0)
                 {
-                    var maxNumberIndex = parameters.Length - 1;
-                    if (!int.TryParse(parameters[maxNumberIndex], out _maxNumberOfWords))
-                    {
-                        throw new ArgumentException($"The 'maxValue' parameter for 'words' must be a number (but {maxNumberIndex} was found).");
-                    }
-                }
-
-                if (parameters.Length > 1)
-                {
                     if (!int.TryParse(parameters[0], out _minNumberOfWords))
                     {
                         throw new ArgumentException($"The 'minValue' parameter for 'words' must be a number (but {parameters[0]} was found).");
@@ -38,6 +29,14 @@ namespace FileGenerator.LineGeneration.TokenGeneration
                     if (_minNumberOfWords < 1)
                     {
                         throw new ArgumentException($"The 'minValue' parameter for 'words' must be at least 1.");
+                    }
+                }
+
+                if (parameters.Length > 1)
+                {
+                    if (!int.TryParse(parameters[1], out _maxNumberOfWords))
+                    {
+                        throw new ArgumentException($"The 'maxValue' parameter for 'words' must be a number (but {parameters[1]} was found).");
                     }
                 }
 

@@ -12,18 +12,17 @@
             {
                 if (parameters.Length > 0)
                 {
-                    var maxNumberIndex = parameters.Length - 1;
-                    if (!int.TryParse(parameters[maxNumberIndex], out _maxNumber))
+                    if (!int.TryParse(parameters[0], out _minNumber))
                     {
-                        throw new ArgumentException($"The 'maxValue' parameter for randomInt must be a number (but {parameters[maxNumberIndex]} was found).");
+                        throw new ArgumentException($"The 'minValue' parameter for randomInt must be a number (but {parameters[0]} was found).");
                     }
                 }
 
                 if (parameters.Length > 1)
                 {
-                    if (!int.TryParse(parameters[0], out _minNumber))
+                    if (!int.TryParse(parameters[1], out _maxNumber))
                     {
-                        throw new ArgumentException($"The 'minValue' parameter for randomInt must be a number (but {parameters[0]} was found).");
+                        throw new ArgumentException($"The 'maxValue' parameter for randomInt must be a number (but {parameters[1]} was found).");
                     }
                 }
 
