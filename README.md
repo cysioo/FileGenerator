@@ -1,4 +1,4 @@
-# File Generator
+# Text File Generator
 Generate large text files with dummy data (i.e. for performance testing an app that needs to read a file). 
 
 This is a console app. It allows to generate large files (you can specify the size in megabytes). 
